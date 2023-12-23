@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTableWidgetItem>
 #include <QList>
+#include <QString>
 
 #include "championship.h"
 #include "addeventwindow.h"
@@ -35,15 +36,20 @@ private slots:
 
     void on_reorderCheck_stateChanged(int arg1);
 
+    void on_resultsTable_cellClicked(int row, int column);
+
 private:
     void DisplayData();
     void SetUpTable();
+    void ClearCompetitorNotes();
 
 private:
     Ui::ChampionshipWindow *ui;
     Championship *championship;
     unsigned int currentGroupSelected;
+    QList<QString*> competitorsNotes;
     QList<QTableWidgetItem*> tableCells;
+
 };
 
 #endif // CHAMPIONSHIPWINDOW_H

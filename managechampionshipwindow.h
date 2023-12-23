@@ -69,6 +69,14 @@ private slots:
 
     void on_randomizeNameButton_clicked();
 
+    void on_swapGroupsButton_clicked();
+
+    void on_swapCompetitorsButton_clicked();
+
+    void on_reorderCompetitorsButton_clicked();
+
+    void on_swapEventsButton_clicked();
+
 private:
     Ui::ManageChampionshipWindow *ui;
     Championship *championship;

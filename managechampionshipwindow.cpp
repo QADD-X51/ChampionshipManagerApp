@@ -93,12 +93,27 @@ void ManageChampionshipWindow::SetUpCompetitorsTab()
     ui->competitorGroupCombo->clear();
     ui->competitorGroupCombo->blockSignals(false);
 
+    ui->swapCompetitorBox->blockSignals(true);
+    ui->swapCompetitorBox->clear();
+    ui->swapCompetitorBox->blockSignals(false);
+
+    ui->swapCompetitorBox->setEnabled(false);
+    ui->swapCompetitorsButton->setEnabled(false);
+
+    ui->reorderCompetitorsButton->setEnabled(false);
+
+    if(this->championship->GetCompetitorsCount() > 1)
+    {
+        ui->reorderCompetitorsButton->setEnabled(true);
+    }
+
     ui->selectedCompetitorCombo->addItem("New Driver");
 
-    unsigned int count = 1;
+    unsigned int count = 0;
     for(const auto& competitor : this->championship->GetAllCompetitors())
     {
-        ui->selectedCompetitorCombo->addItem(QString::fromStdString(std::to_string(count++) + ". " + competitor.GetName()));
+        ui->selectedCompetitorCombo->addItem(QString::fromStdString(std::to_string(++count) + ". " + competitor.GetName()));
+        ui->swapCompetitorBox->addItem(QString::fromStdString(std::to_string(count) + ". " + competitor.GetName()));
     }
 
     count = 1;
@@ -162,14 +177,49 @@ void ManageChampionshipWindow::on_randomizeNameButton_clicked()
 
 void ManageChampionshipWindow::on_selectedCompetitorCombo_currentIndexChanged(int index)
 {
+    ui->swapCompetitorBox->setEnabled(false);
+    ui->swapCompetitorsButton->setEnabled(false);
     ui->competitorNameBox->setText("");
+
     if(!index) return;
+
+    ui->swapCompetitorBox->setEnabled(true);
+    ui->swapCompetitorsButton->setEnabled(true);
     ui->competitorGroupCombo->setCurrentIndex(this->championship->GetCompetitor(index - 1).GetGroupId());
 }
 
 void ManageChampionshipWindow::on_competitorGroupCombo_currentIndexChanged(int index)
 {
     ui->competitorNameBox->setText("");
+}
+
+void ManageChampionshipWindow::on_swapCompetitorsButton_clicked()
+{
+    if(ui->selectedCompetitorCombo->currentIndex() == 0) return;
+    if(ui->selectedCompetitorCombo->currentIndex() - 1 == ui->swapCompetitorBox->currentIndex()) return;
+
+    this->championship->SwapCompetitors(ui->selectedCompetitorCombo->currentIndex() - 1, ui->swapCompetitorBox->currentIndex());
+    this->SetUpAllTabs();
+    this->savedChanges = false;
+}
+
+
+void ManageChampionshipWindow::on_reorderCompetitorsButton_clicked()
+{
+    QMessageBox box;
+    box.setModal(true);
+    auto answer = box.information(this, "Reordering Competitor Indices", "This option will reorder the internal ID of " \
+                          "the competitors so they could be ordered by groups, in their name's alphabetical ordered.\n" \
+                          "The change of internal Id's will affect the order of the competitors in various combo boxes or the Add Event Window.\n" \
+                          "The change of internal Id wil NOT change any of the championship informations in any other way.\n" \
+                          "Are you sure you want to reoreder competitors IDs?", QMessageBox::Yes|QMessageBox::No);
+
+    if(answer == QMessageBox::Yes)
+    {
+        this->championship->ReorderCompetitors();
+        this->SetUpAllTabs();
+        this->savedChanges = false;
+    }
 }
 
 void ManageChampionshipWindow::SetUpPointsTab()
@@ -242,16 +292,24 @@ void ManageChampionshipWindow::SetUpGroupsTab()
     ui->selectedGroupCombo->clear();
     ui->selectedGroupCombo->blockSignals(false);
 
+    ui->swapGroupCombo->blockSignals(true);
+    ui->swapGroupCombo->clear();
+    ui->swapGroupCombo->blockSignals(false);
+
+    ui->swapGroupCombo->setEnabled(false);
+    ui->swapGroupsButton->setEnabled(false);
+
     ui->selectedGroupCombo->addItem("New Group");
     ui->groupNameBox->setText("");
     ui->currentGroupNameLabel->setText("");
     ui->deleteGroupButton->setEnabled(false);
 
-    unsigned int count = 1;
+    unsigned int count = 0;
 
     for(const auto& group : this->championship->GetGroupNames())
     {
-        ui->selectedGroupCombo->addItem(QString::fromStdString(std::to_string(count++) + ". " + group));
+        ui->selectedGroupCombo->addItem(QString::fromStdString(std::to_string(++count) + ". " + group));
+        ui->swapGroupCombo->addItem(QString::fromStdString(std::to_string(count) + ". " + group));
     }
 
     if(this->championship->GetGroupCount() > 1)
@@ -265,12 +323,16 @@ void ManageChampionshipWindow::on_selectedGroupCombo_currentIndexChanged(int ind
 {
     if(!index)
     {
+        ui->swapGroupCombo->setEnabled(false);
+        ui->swapGroupsButton->setEnabled(false);
         ui->groupNameBox->setText("");
         ui->currentGroupNameLabel->setText("");
         ui->deleteGroupButton->setEnabled(false);
         return;
     }
 
+    ui->swapGroupCombo->setEnabled(true);
+    ui->swapGroupsButton->setEnabled(true);
     ui->groupNameBox->setText(QString::fromStdString(this->championship->GetGroupName(index - 1)));
     ui->currentGroupNameLabel->setText(QString::fromStdString(this->championship->GetGroupName(index - 1)));
 
@@ -323,11 +385,29 @@ void ManageChampionshipWindow::on_deleteGroupButton_clicked()
     }
 }
 
+void ManageChampionshipWindow::on_swapGroupsButton_clicked()
+{
+    if(!ui->selectedGroupCombo->currentIndex())
+    {
+        QMessageBox box;
+        box.setModal(true);
+        box.warning(this,"Wrong Place","You should not be here...");
+        return;
+    }
+
+    if(ui->swapGroupCombo->currentIndex() == ui->selectedGroupCombo->currentIndex() - 1) return;
+
+    this->championship->SwapGroups(ui->selectedGroupCombo->currentIndex() - 1, ui->swapGroupCombo->currentIndex());
+
+    this->SetUpAllTabs();
+}
+
 void ManageChampionshipWindow::SetUpEventsTab()
 {
     ui->deleteEventButton->setEnabled(false);
     ui->changeEventNameButton->setEnabled(false);
     ui->updateCompetitorButton->setEnabled(false);
+    ui->swapEventsButton->setEnabled(false);
     ui->eventNameBox->setText("");
 
     ui->eventNameBox->setEnabled(false);
@@ -345,6 +425,12 @@ void ManageChampionshipWindow::SetUpEventsTab()
     ui->selectedCompetitorEventCombo->clear();
     ui->selectedCompetitorEventCombo->blockSignals(false);
 
+    ui->swapEventCombo->blockSignals(true);
+    ui->swapEventCombo->clear();
+    ui->swapEventCombo->setEnabled(false);
+    ui->swapEventCombo->blockSignals(false);
+
+
     ui->groupEventLabel->setText("");
 
     if(this->championship->GetEventsCount() == 0)
@@ -355,6 +441,7 @@ void ManageChampionshipWindow::SetUpEventsTab()
     ui->deleteEventButton->setEnabled(true);
     ui->changeEventNameButton->setEnabled(true);
     ui->updateCompetitorButton->setEnabled(true);
+    ui->swapEventsButton->setEnabled(true);
 
     ui->eventNameBox->setEnabled(true);
     ui->bonusPointsEventBox->setEnabled(true);
@@ -369,10 +456,16 @@ void ManageChampionshipWindow::SetUpEventsTab()
     ui->selectedCompetitorEventCombo->setEnabled(true);
     ui->selectedCompetitorEventCombo->blockSignals(false);
 
+    ui->swapEventCombo->blockSignals(true);
+    ui->swapEventCombo->setEnabled(true);
+    ui->swapEventCombo->blockSignals(false);
+
     ui->selectedEventCombo->blockSignals(true);
+    unsigned int count = 0;
     for(const auto& eventName : this->championship->GetAllEventNames())
     {
-        ui->selectedEventCombo->addItem(QString::fromStdString(eventName));
+        ui->selectedEventCombo->addItem(QString::fromStdString(std::to_string(++count) + ". " + eventName));
+        ui->swapEventCombo->addItem(QString::fromStdString(std::to_string(count) + ". " + eventName));
     }
     ui->selectedEventCombo->setCurrentIndex(0);
     ui->selectedEventCombo->blockSignals(false);
@@ -455,6 +548,16 @@ void ManageChampionshipWindow::on_updateCompetitorButton_clicked()
     this->savedChanges=false;
 }
 
+void ManageChampionshipWindow::on_swapEventsButton_clicked()
+{
+    if(ui->selectedEventCombo->currentIndex() == ui->swapEventCombo->currentIndex()) return;
+
+    this->championship->SwapEvents(ui->selectedEventCombo->currentIndex(), ui->swapEventCombo->currentIndex());
+
+    this->SetUpAllTabs();
+    this->savedChanges=false;
+}
+
 void ManageChampionshipWindow::reject()
 {
     if(!savedChanges)
@@ -469,3 +572,4 @@ void ManageChampionshipWindow::reject()
     }
     QDialog::reject();
 }
+

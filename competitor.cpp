@@ -33,3 +33,8 @@ void Competitor::SetGroupId(const unsigned int& groupId)
 {
     this->groupId = groupId;
 }
+
+bool Competitor::operator<(const Competitor& other) const
+{
+    return this->name < other.name;
+}

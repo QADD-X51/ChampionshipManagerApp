@@ -43,6 +43,7 @@ public:
 
     void AddNewEmptyDriver();
     void RemoveDriver(const unsigned int& driverId);
+    void SwapDrivers(const unsigned int& driverId1, const unsigned int& driverId2);
 
 private:
 

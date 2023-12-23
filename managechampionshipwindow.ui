@@ -22,7 +22,7 @@
      <item row="0" column="0">
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>4</number>
        </property>
        <widget class="QWidget" name="tab">
         <attribute name="title">
@@ -110,55 +110,28 @@
         <attribute name="title">
          <string>Competitors</string>
         </attribute>
-        <layout class="QGridLayout" name="gridLayout_5" rowstretch="0,0,0,1,0,6">
+        <layout class="QGridLayout" name="gridLayout_5" rowstretch="0,0,0,0,1,0,6">
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Group: </string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
          <item row="1" column="0">
           <widget class="QLabel" name="label_4">
            <property name="text">
             <string>Competitor Name:</string>
            </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_3">
-           <property name="text">
-            <string>Selected Competitor:</string>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
-          <widget class="QComboBox" name="competitorGroupCombo"/>
-         </item>
-         <item row="1" column="2">
-          <widget class="QPushButton" name="randomizeNameButton">
-           <property name="text">
-            <string>Randomize Name</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1">
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_5">
-           <property name="text">
-            <string>Group: </string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QComboBox" name="selectedCompetitorCombo"/>
-         </item>
-         <item row="3" column="1">
+         <item row="4" column="1">
           <spacer name="verticalSpacer_3">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -174,6 +147,16 @@
          <item row="1" column="1">
           <widget class="QLineEdit" name="competitorNameBox"/>
          </item>
+         <item row="1" column="2">
+          <widget class="QPushButton" name="randomizeNameButton">
+           <property name="text">
+            <string>Randomize Name</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QComboBox" name="competitorGroupCombo"/>
+         </item>
          <item row="1" column="3">
           <spacer name="horizontalSpacer_8">
            <property name="orientation">
@@ -187,8 +170,8 @@
            </property>
           </spacer>
          </item>
-         <item row="4" column="0" colspan="4">
-          <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="3,1,1,1,15">
+         <item row="5" column="0" colspan="4">
+          <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="3,1,1,1,1,1,15">
            <item>
             <spacer name="horizontalSpacer_5">
              <property name="orientation">
@@ -233,6 +216,26 @@
             </widget>
            </item>
            <item>
+            <spacer name="horizontalSpacer_18">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="reorderCompetitorsButton">
+             <property name="text">
+              <string>Reorder Competitors Id</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <spacer name="horizontalSpacer_7">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -246,6 +249,52 @@
             </spacer>
            </item>
           </layout>
+         </item>
+         <item row="6" column="1">
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="selectedCompetitorCombo"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Selected Competitor:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QComboBox" name="swapCompetitorBox"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_21">
+           <property name="text">
+            <string>Swap Id With:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QPushButton" name="swapCompetitorsButton">
+           <property name="text">
+            <string>Swap Competitors</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -316,6 +365,9 @@
            <property name="text">
             <string>Position:</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
          <item row="6" column="1">
@@ -349,12 +401,18 @@
            <property name="text">
             <string>Group:</string>
            </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
           </widget>
          </item>
          <item row="2" column="0">
           <widget class="QLabel" name="label_8">
            <property name="text">
             <string>Points:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
@@ -390,45 +448,48 @@
         <attribute name="title">
          <string>Groups</string>
         </attribute>
-        <layout class="QGridLayout" name="gridLayout_6" rowstretch="0,0,1,0,0,4" columnstretch="0,1,2" columnminimumwidth="0,0,0">
-         <item row="4" column="0">
-          <widget class="QLabel" name="label_12">
+        <layout class="QGridLayout" name="gridLayout_6" rowstretch="0,0,1,0,0,4,0" columnstretch="0,1,2,0" columnminimumwidth="0,0,0,0">
+         <item row="2" column="3">
+          <widget class="QPushButton" name="swapGroupsButton">
            <property name="text">
-            <string>Current Group Name:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <spacer name="horizontalSpacer_12">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="4" column="1">
-          <widget class="QLabel" name="currentGroupNameLabel">
-           <property name="text">
-            <string>TextLabel</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_10">
-           <property name="text">
-            <string>Selected Group:</string>
+            <string>Swap Groups</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
           <widget class="QLineEdit" name="groupNameBox"/>
          </item>
-         <item row="2" column="1">
+         <item row="5" column="1">
+          <widget class="QLabel" name="currentGroupNameLabel">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_11">
+           <property name="text">
+            <string>Group Name:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <spacer name="verticalSpacer_7">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="3" column="1">
           <spacer name="verticalSpacer_6">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -441,14 +502,27 @@
            </property>
           </spacer>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_11">
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_20">
            <property name="text">
-            <string>Group Name:</string>
+            <string>Swap With:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="3" column="0" colspan="3">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_10">
+           <property name="text">
+            <string>Selected Group:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0" colspan="4">
           <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="4,0,1,0,15">
            <item>
             <spacer name="horizontalSpacer_13">
@@ -505,18 +579,41 @@
            </item>
           </layout>
          </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_12">
+           <property name="text">
+            <string>Current Group Name:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QComboBox" name="swapGroupCombo"/>
+         </item>
          <item row="0" column="1">
           <widget class="QComboBox" name="selectedGroupCombo"/>
          </item>
-         <item row="5" column="1">
-          <spacer name="verticalSpacer_7">
+         <item row="2" column="2">
+          <spacer name="horizontalSpacer_17">
            <property name="orientation">
-            <enum>Qt::Vertical</enum>
+            <enum>Qt::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>20</width>
-             <height>40</height>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="1" column="2" colspan="2">
+          <spacer name="horizontalSpacer_12">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
             </size>
            </property>
           </spacer>
@@ -528,25 +625,35 @@
          <string>Events</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_7" columnstretch="0,1,1,0">
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_17">
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_16">
            <property name="text">
-            <string>Event Name:</string>
+            <string>Position:</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="0" column="3">
-          <widget class="QPushButton" name="deleteEventButton">
+         <item row="3" column="3">
+          <widget class="QPushButton" name="updateCompetitorButton">
            <property name="text">
-            <string>Delete Event</string>
+            <string>Update Competitor</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="1">
-          <widget class="QComboBox" name="positionCompetitorCombo"/>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_15">
+           <property name="text">
+            <string>Selected Competitor:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="0" colspan="4">
+          <widget class="QTextEdit" name="noteEventBox"/>
          </item>
          <item row="0" column="0">
           <widget class="QLabel" name="label_14">
@@ -558,66 +665,60 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_15">
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_17">
            <property name="text">
-            <string>Selected Competitor:</string>
+            <string>Event Name:</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
-         <item row="5" column="1">
-          <widget class="QCheckBox" name="isDisqualifiedCheck">
-           <property name="text">
-            <string>Is Disqualified</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QComboBox" name="selectedCompetitorEventCombo"/>
-         </item>
-         <item row="6" column="0">
+         <item row="7" column="0">
           <widget class="QLabel" name="label_19">
            <property name="text">
             <string>Note:</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="1">
-          <widget class="QSpinBox" name="bonusPointsEventBox">
-           <property name="maximum">
-            <number>1000000</number>
-           </property>
-           <property name="singleStep">
-            <number>1</number>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="label_18">
+         <item row="1" column="3">
+          <widget class="QPushButton" name="changeEventNameButton">
            <property name="text">
-            <string>Bonus Points:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            <string>Change Name</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
           <widget class="QLineEdit" name="eventNameBox"/>
          </item>
+         <item row="6" column="1">
+          <widget class="QCheckBox" name="isDisqualifiedCheck">
+           <property name="text">
+            <string>Is Disqualified</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="1">
           <widget class="QComboBox" name="selectedEventCombo"/>
          </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_16">
+         <item row="3" column="2">
+          <widget class="QLabel" name="groupEventLabel">
            <property name="text">
-            <string>Position:</string>
+            <string>Group: Sample Text</string>
            </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QComboBox" name="selectedCompetitorEventCombo"/>
+         </item>
+         <item row="5" column="1">
+          <widget class="QSpinBox" name="bonusPointsEventBox">
+           <property name="maximum">
+            <number>1000000</number>
+           </property>
+           <property name="singleStep">
+            <number>1</number>
            </property>
           </widget>
          </item>
@@ -634,27 +735,43 @@
            </property>
           </spacer>
          </item>
-         <item row="7" column="0" colspan="4">
-          <widget class="QTextEdit" name="noteEventBox"/>
-         </item>
-         <item row="1" column="3">
-          <widget class="QPushButton" name="changeEventNameButton">
+         <item row="0" column="3">
+          <widget class="QPushButton" name="deleteEventButton">
            <property name="text">
-            <string>Change Name</string>
+            <string>Delete Event</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QComboBox" name="positionCompetitorCombo"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_18">
+           <property name="text">
+            <string>Bonus Points:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QComboBox" name="swapEventCombo"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_22">
+           <property name="text">
+            <string>Swap With:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
            </property>
           </widget>
          </item>
          <item row="2" column="3">
-          <widget class="QPushButton" name="updateCompetitorButton">
+          <widget class="QPushButton" name="swapEventsButton">
            <property name="text">
-            <string>Update Competitor</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="2">
-          <widget class="QLabel" name="groupEventLabel">
-           <property name="text">
-            <string>Group: Sample Text</string>
+            <string>Swap Events</string>
            </property>
           </widget>
          </item>
@@ -676,6 +793,9 @@
         <zorder>noteEventBox</zorder>
         <zorder>changeEventNameButton</zorder>
         <zorder>groupEventLabel</zorder>
+        <zorder>swapEventCombo</zorder>
+        <zorder>label_22</zorder>
+        <zorder>swapEventsButton</zorder>
        </widget>
       </widget>
      </item>

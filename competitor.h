@@ -18,6 +18,8 @@ public:
 
     void SetName(const std::string& name);
     void SetGroupId(const unsigned int& groupId);
+
+    bool operator<(const Competitor& other) const;
 };
 
 #endif // COMPETITOR_H

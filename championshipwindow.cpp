@@ -20,7 +20,6 @@ ChampionshipWindow::ChampionshipWindow(const std::string& path, QWidget *parent)
 void ChampionshipWindow::DisplayData()
 {
     ui->championshipNameLabel->setText(QString::fromStdString(this->championship->GetName()));
-    ui->descriptionLabel->setText(QString::fromStdString(this->championship->GetDescription()));
     this->currentGroupSelected = 0;
     ui->staticClassLabel->hide();
     ui->classLabel->hide();
@@ -57,6 +56,9 @@ void ChampionshipWindow::SetUpTable()
     ui->resultsTable->clear();
     ui->resultsTable->blockSignals(false);
     this->tableCells.clear();
+
+    this->ClearCompetitorNotes();
+    ui->descriptionLabel->setText(QString::fromStdString(this->championship->GetDescription()));
 
     if(ui->eventsComboBox->currentIndex() == 0)
     {
@@ -148,19 +150,13 @@ void ChampionshipWindow::SetUpTable()
                 cell->setText(QString::fromStdString(std::get<5>(results.at(row))));
                 break;
             case 6:
-
                 cell->setText(QString::fromStdString(std::get<7>(results.at(row))));
-                break;
-            case 7:
-                break;
-                // IDK what to do with them notes...
-                cell->setText(QString::fromStdString(std::get<6>(results.at(row))));
             }
 
-            if(column == 7) continue;
             ui->resultsTable->setItem(row, column, cell);
 
         }
+        this->competitorsNotes.push_back(new QString(QString::fromStdString(std::get<6>(results.at(row)))));
     }
 }
 
@@ -168,6 +164,15 @@ ChampionshipWindow::~ChampionshipWindow()
 {
     delete ui;
     delete championship;
+}
+
+void ChampionshipWindow::ClearCompetitorNotes()
+{
+    for(unsigned int index=0;index<this->competitorsNotes.size();++index)
+    {
+        delete this->competitorsNotes.at(index);
+    }
+    this->competitorsNotes.clear();
 }
 
 void ChampionshipWindow::on_addEventButton_clicked()
@@ -245,5 +250,13 @@ void ChampionshipWindow::on_nextGroupButton_clicked()
 void ChampionshipWindow::on_reorderCheck_stateChanged(int arg1)
 {
     this->SetUpTable();
+}
+
+
+void ChampionshipWindow::on_resultsTable_cellClicked(int row, int column)
+{
+    if(ui->eventsComboBox->currentIndex() == 0) return;
+
+    ui->descriptionLabel->setText(*this->competitorsNotes.at(row));
 }
 

@@ -48,15 +48,19 @@ public:
     void AddCompetitor(const std::string& name, const unsigned int& groupId);
     void RemoveCompetitor(const unsigned int& driveId);
     void UpdateCompetitor(const unsigned int& driverId, const std::string& name, const unsigned int& groupId);
+    void SwapCompetitors(const unsigned int& driverId1, const unsigned int& driverId2);
+    void ReorderCompetitors();
 
     void AddGroup(const std::string& name);
     void RemoveGroup(const unsigned int& groupId);
     void UpdateGroup(const unsigned int& groupId, const std::string& name);
+    void SwapGroups(const unsigned int& groupId1, const unsigned int& groupId2);
 
     void AddEvent(const Event& event);
     void RemoveEvent(const unsigned int& eventId);
     void ChangeEventName(const unsigned int& eventId, const std::string& newName);
     void UpdateEventCompetitor(const unsigned int& eventId, const unsigned int& competitorId, const unsigned int& newPosition, const int& bonusPoints, const std::string& note, const bool& isDisq);
+    void SwapEvents(const unsigned int& eventId1, const unsigned int& eventId2);
 
     void SetName(const std::string& name);
     void SetPoints(const int& points, const unsigned int& position, const unsigned int& groupId);

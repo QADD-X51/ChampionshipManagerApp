@@ -363,7 +363,12 @@ std::vector<std::tuple<std::string,std::string,int,int,int,std::string, std::str
 
         for(unsigned int index=0;index<defaultPos.size();++index)
         {
-            temp.push_back(to_return.at(defaultPos.at(index)));
+            temp.push_back(Tuple());
+        }
+
+        for(unsigned int index=0;index<defaultPos.size();++index)
+        {
+            temp.at(defaultPos.at(index)) = to_return.at(index);
         }
 
         to_return = temp;
@@ -421,6 +426,8 @@ void Championship::AddGroup(const std::string& name)
     this->groupNames.push_back(name);
     this->groupsCompetitorsCount.push_back(0);
     ++this->groupsCount;
+
+    this->positionsPoints.push_back(std::vector<int>());
 }
 void Championship::RemoveGroup(const unsigned int& groupId)
 {
@@ -483,8 +490,20 @@ void Championship::RemoveCompetitor(const unsigned int& driverId)
 
 void Championship::UpdateCompetitor(const unsigned int& driverId, const std::string& name, const unsigned int& groupId)
 {
+    unsigned int oldGroup = this->competitors.at(driverId).GetGroupId();
+
+    if(oldGroup != groupId)
+    {
+        --this->groupsCompetitorsCount.at(oldGroup);
+        ++this->groupsCompetitorsCount.at(groupId);
+
+        this->positionsPoints.at(oldGroup).erase(this->positionsPoints.at(oldGroup).end() - 1);
+        this->positionsPoints.at(groupId).push_back(0);
+
+        this->competitors.at(driverId).SetGroupId(groupId);
+    }
+
     this->competitors.at(driverId).SetName(name);
-    this->competitors.at(driverId).SetGroupId(groupId);
 }
 
 void Championship::AddEvent(const Event& event)
@@ -507,4 +526,98 @@ void Championship::ChangeEventName(const unsigned int& eventId, const std::strin
 void Championship::UpdateEventCompetitor(const unsigned int& eventId, const unsigned int& competitorId, const unsigned int& newPosition, const int& bonusPoints, const std::string& note, const bool& isDisq)
 {
     this->events.at(eventId).UpdateDriver(competitorId, newPosition, bonusPoints, note, isDisq);
+}
+
+void Championship::SwapGroups(const unsigned int& groupId1, const unsigned int& groupId2)
+{
+    if(groupId1 == groupId2) return;
+
+    std::swap(this->groupNames.at(groupId1), this->groupNames.at(groupId2));
+    std::swap(this->groupsCompetitorsCount.at(groupId1), this->groupsCompetitorsCount.at(groupId2));
+    std::swap(this->positionsPoints.at(groupId1), this->positionsPoints.at(groupId2));
+
+    for(auto& competitor : this->competitors)
+    {
+        if(competitor.GetGroupId() == groupId1)
+        {
+            competitor.SetGroupId(groupId2);
+            continue;
+        }
+
+        if(competitor.GetGroupId() == groupId2)
+        {
+            competitor.SetGroupId(groupId1);
+        }
+    }
+}
+
+void Championship::SwapCompetitors(const unsigned int& driverId1, const unsigned int& driverId2)
+{
+    if(driverId1 == driverId2) return;
+
+    std::swap(this->competitors.at(driverId1), this->competitors.at(driverId2));
+
+    for(auto& event:this->events)
+    {
+        event.SwapDrivers(driverId1, driverId2);
+    }
+}
+
+void Championship::ReorderCompetitors()
+{
+    std::vector<unsigned int> newOrder;
+
+    std::vector<std::vector<unsigned int>> orderedIndex;
+
+    for(unsigned int index=0;index<this->groupsCount;++index)
+    {
+        orderedIndex.push_back(std::vector<unsigned int>());
+
+        unsigned int count = 0;
+        for(unsigned int jndex=0;jndex<this->competitorsCount;++jndex)
+        {
+            if(this->competitors.at(jndex).GetGroupId() == index)
+            {
+                orderedIndex.at(index).push_back(jndex);
+                if(++count == this->groupsCompetitorsCount.at(index))
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    for(unsigned int index=0;index<this->groupsCount;++index)
+    {
+        std::sort(orderedIndex.at(index).begin(), orderedIndex.at(index).end(),
+                  [&](unsigned int a, unsigned int b) {return this->competitors.at(a) < this->competitors.at(b);});
+    }
+
+    for(unsigned int index=0;index<this->groupsCount;++index)
+    {
+        for(const auto& Id : orderedIndex.at(index))
+        {
+            newOrder.push_back(Id);
+        }
+    }
+
+    unsigned int index = 0;
+    while(index<newOrder.size())
+    {
+        if(index == newOrder.at(index))
+        {
+            ++index;
+            continue;
+        }
+
+        this->SwapCompetitors(index, newOrder.at(index));
+        std::swap(newOrder.at(index), newOrder.at(newOrder.at(index)));
+    }
+}
+
+void Championship::SwapEvents(const unsigned int& eventId1, const unsigned int& eventId2)
+{
+    if(eventId1 == eventId2) return;
+
+    std::swap(this->events.at(eventId1), this->events.at(eventId2));
 }

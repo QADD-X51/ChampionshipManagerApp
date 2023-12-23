@@ -227,14 +227,14 @@ std::vector<unsigned int> Event::DriversOrderToVector(const unsigned int& groupI
 {
     std::vector<unsigned int> toReturn;
 
-    for(unsigned int index=0;index<this->driverBonusPoints.size();++index)
+    for(unsigned int index=0;index<this->driversOrderedByPossition.size();++index)
     {
         toReturn.push_back(0);
     }
 
-    for(const auto& item : this->driversOrderedByPossition)
+    for(unsigned int index=0;index<this->driversOrderedByPossition.size();++index)
     {
-        toReturn.at(item.first) = item.second;
+        toReturn.at(this->driversOrderedByPossition.at(index)) = index;
     }
 
     if(groupId == 0 || competitors.size() == 0)
@@ -276,4 +276,34 @@ std::vector<unsigned int> Event::DriversOrderToVector(const unsigned int& groupI
     }
 
     return aux;
+}
+
+void Event::SwapDrivers(const unsigned int& driverId1, const unsigned int& driverId2)
+{
+    if(driverId1 == driverId2) return;
+
+    std::swap(this->notes.at(driverId1), this->notes.at(driverId2));
+    std::swap(this->driverBonusPoints.at(driverId1), this->driverBonusPoints.at(driverId2));
+    std::swap(this->isDisqualified.at(driverId1), this->isDisqualified.at(driverId2));
+
+    bool found1 = false;
+    bool found2 = false;
+
+    for(unsigned int position = 0; position < this->driversOrderedByPossition.size(); ++position)
+    {
+        if(found1 && found2) break;
+
+        if(this->driversOrderedByPossition.at(position) == driverId1)
+        {
+            found1 = true;
+            this->driversOrderedByPossition.at(position) = driverId2;
+            continue;
+        }
+        if(this->driversOrderedByPossition.at(position) == driverId2)
+        {
+            found2 = true;
+            this->driversOrderedByPossition.at(position) = driverId1;
+            continue;
+        }
+    }
 }
